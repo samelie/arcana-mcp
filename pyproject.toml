@@ -1,0 +1,14 @@
+[project]
+name = "arcana-mcp"
+version = "0.1.0"
+description = "Minimal context DB — MCP server backed by SQLite + FTS5 + local embeddings"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.26",
+    "fastembed>=0.7",
+    "mcp[cli]>=1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
