@@ -14,16 +14,16 @@ from .chunking import TEXT_EXTS, _auto_uri, _chunk_text
 from .db import _get_db
 from .embeddings import _cosine_sim, _embed_texts, _pack_embedding, _unpack_embedding
 
-logger = logging.getLogger("context-db")
+logger = logging.getLogger("arcana-mcp")
 
 mcp_server = FastMCP(
-    "context-db",
+    "arcana",
     instructions="Minimal context database — semantic search, FTS, resource management",
 )
 
 
 @mcp_server.tool()
-def ov_add_resource(path: str, to: str = "", reason: str = "") -> str:
+def arcana_add_resource(path: str, to: str = "", reason: str = "") -> str:
     """Add a file or directory as a resource into the context database.
 
     Args:
@@ -81,7 +81,7 @@ def ov_add_resource(path: str, to: str = "", reason: str = "") -> str:
 
 
 @mcp_server.tool()
-def ov_ls(uri: str = "arcana://") -> str:
+def arcana_ls(uri: str = "arcana://") -> str:
     """List direct children at a arcana:// URI.
 
     Args:
@@ -106,7 +106,7 @@ def ov_ls(uri: str = "arcana://") -> str:
 
 
 @mcp_server.tool()
-def ov_tree(uri: str = "arcana://") -> str:
+def arcana_tree(uri: str = "arcana://") -> str:
     """Show recursive tree at a arcana:// URI.
 
     Args:
@@ -121,7 +121,7 @@ def ov_tree(uri: str = "arcana://") -> str:
 
 
 @mcp_server.tool()
-def ov_stat(uri: str) -> str:
+def arcana_stat(uri: str) -> str:
     """Get metadata for a resource.
 
     Args:
@@ -141,7 +141,7 @@ def ov_stat(uri: str) -> str:
 
 
 @mcp_server.tool()
-def ov_rm(uri: str, recursive: bool = False) -> str:
+def arcana_rm(uri: str, recursive: bool = False) -> str:
     """Remove a resource (CASCADE deletes chunks, FTS triggers clean up).
 
     Args:
@@ -161,7 +161,7 @@ def ov_rm(uri: str, recursive: bool = False) -> str:
 
 
 @mcp_server.tool()
-def ov_find(query: str, target_uri: str = "", limit: int = 10) -> str:
+def arcana_find(query: str, target_uri: str = "", limit: int = 10) -> str:
     """Semantic search — embed query, cosine similarity against all chunks.
 
     Args:
@@ -193,7 +193,7 @@ def ov_find(query: str, target_uri: str = "", limit: int = 10) -> str:
 
 
 @mcp_server.tool()
-def ov_grep(uri: str = "arcana://", pattern: str = "", case_insensitive: bool = False) -> str:
+def arcana_grep(uri: str = "arcana://", pattern: str = "", case_insensitive: bool = False) -> str:
     """Keyword/regex search — FTS5 for simple terms, Python re fallback.
 
     Args:
@@ -230,7 +230,7 @@ def ov_grep(uri: str = "arcana://", pattern: str = "", case_insensitive: bool = 
 
 
 @mcp_server.tool()
-def ov_search(query: str, target_uri: str = "", limit: int = 10) -> str:
+def arcana_search(query: str, target_uri: str = "", limit: int = 10) -> str:
     """Hybrid search — 0.7 * semantic + 0.3 * FTS5, merged and ranked.
 
     Args:
@@ -239,9 +239,9 @@ def ov_search(query: str, target_uri: str = "", limit: int = 10) -> str:
         limit: Max number of results (default 10).
     """
     # Semantic scores
-    sem_results = json.loads(ov_find(query, target_uri=target_uri, limit=limit * 2))
+    sem_results = json.loads(arcana_find(query, target_uri=target_uri, limit=limit * 2))
     # FTS scores
-    fts_results = json.loads(ov_grep(uri=target_uri or "arcana://", pattern=query))
+    fts_results = json.loads(arcana_grep(uri=target_uri or "arcana://", pattern=query))
 
     # Normalize and merge
     merged: dict[str, dict] = {}
@@ -271,7 +271,7 @@ def ov_search(query: str, target_uri: str = "", limit: int = 10) -> str:
 
 
 @mcp_server.tool()
-def ov_read(uri: str) -> str:
+def arcana_read(uri: str) -> str:
     """Read full content of a resource (concatenated chunks in order).
 
     Args:
@@ -285,7 +285,7 @@ def ov_read(uri: str) -> str:
 
 
 @mcp_server.tool()
-def ov_add_memory(role: str, content: str) -> str:
+def arcana_add_memory(role: str, content: str) -> str:
     """Store a memory entry as a resource with embedding.
 
     Args:
@@ -313,7 +313,7 @@ def ov_add_memory(role: str, content: str) -> str:
 
 
 @mcp_server.tool()
-def ov_mkdir(uri: str) -> str:
+def arcana_mkdir(uri: str) -> str:
     """Create a directory at a arcana:// URI.
 
     Args:
@@ -326,7 +326,7 @@ def ov_mkdir(uri: str) -> str:
 
 
 @mcp_server.tool()
-def ov_mv(from_uri: str, to_uri: str) -> str:
+def arcana_mv(from_uri: str, to_uri: str) -> str:
     """Move/rename a resource.
 
     Args:

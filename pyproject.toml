@@ -1,14 +1,45 @@
 [project]
 name = "arcana-mcp"
 version = "0.1.0"
-description = "Minimal context DB — MCP server backed by SQLite + FTS5 + local embeddings"
+description = "Semantic vector DB as an MCP server for Claude Code"
 requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Sam Elie" }]
+readme = "README.md"
+keywords = ["mcp", "claude", "embeddings", "semantic-search", "sqlite"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+]
 dependencies = [
     "numpy>=1.26",
     "fastembed>=0.7",
     "mcp[cli]>=1.0",
 ]
 
+[project.urls]
+Repository = "https://github.com/samelie/arcana-mcp"
+
+[project.scripts]
+arcana-mcp = "arcana_mcp.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/arcana_mcp"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"skills" = "arcana_mcp/skills"
+
+[tool.hatch.build.targets.sdist]
+include = ["src/arcana_mcp/**", "skills/**", "tests/**", "README.md", "LICENSE", "pyproject.toml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib"]

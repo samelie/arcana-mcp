@@ -1,14 +1,15 @@
 """SQLite database connection and schema management."""
 
 import logging
+import os
 import sqlite3
 from pathlib import Path
 
 from .embeddings import EMBED_MODEL, _embed_texts, _pack_embedding
 
-logger = logging.getLogger("context-db")
+logger = logging.getLogger("arcana-mcp")
 
-DB_PATH = Path.home() / ".arcana" / "context.db"
+DB_PATH = Path(os.environ.get("ARCANA_DB_PATH", Path.home() / ".arcana" / "context.db"))
 
 _db: sqlite3.Connection | None = None
 
@@ -77,17 +78,24 @@ def _init_schema(db: sqlite3.Connection):
 
 def _migrate_embeddings(db: sqlite3.Connection):
     """Check embed model; NULL old embeddings and re-embed if model changed."""
+    from .embeddings import EMBED_DIM
+
     row = db.execute("SELECT value FROM meta WHERE key='embed_model'").fetchone()
     stored_model = row[0] if row else None
 
-    if stored_model == EMBED_MODEL:
-        return  # no migration needed
+    # Check if re-embedding needed: model name mismatch or dimension mismatch
+    needs_reembed = stored_model != EMBED_MODEL
+    if not needs_reembed:
+        sample = db.execute("SELECT embedding FROM chunks WHERE embedding IS NOT NULL LIMIT 1").fetchone()
+        if sample and len(sample[0]) != EMBED_DIM * 4:
+            needs_reembed = True
+            logger.warning(f"Embedding dimension mismatch: stored={len(sample[0])//4}, expected={EMBED_DIM}")
 
-    # Model changed (or first run) — NULL all existing embeddings
-    if stored_model is not None:
-        logger.info(f"Embed model changed {stored_model} → {EMBED_MODEL}, clearing embeddings")
-        db.execute("UPDATE chunks SET embedding = NULL")
+    if not needs_reembed:
+        return
 
+    logger.info(f"Embed model changed {stored_model} → {EMBED_MODEL}, clearing embeddings")
+    db.execute("UPDATE chunks SET embedding = NULL")
     db.execute(
         "INSERT OR REPLACE INTO meta (key, value) VALUES ('embed_model', ?)",
         (EMBED_MODEL,),

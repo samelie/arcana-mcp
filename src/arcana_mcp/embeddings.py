@@ -1,12 +1,13 @@
 """Local embedding helpers using fastembed (ONNX-based, no PyTorch)."""
 
 import logging
+import os
 from pathlib import Path
 
 import numpy as np
 from fastembed import TextEmbedding
 
-logger = logging.getLogger("context-db")
+logger = logging.getLogger("arcana-mcp")
 
 EMBED_MODEL = "BAAI/bge-small-en-v1.5"
 EMBED_DIM = 384
@@ -17,7 +18,7 @@ _model: TextEmbedding | None = None
 def _get_model() -> TextEmbedding:
     global _model
     if _model is None:
-        cache = str(Path.home() / ".arcana" / "models")
+        cache = os.environ.get("ARCANA_MODEL_CACHE", str(Path.home() / ".arcana" / "models"))
         _model = TextEmbedding(
             model_name=EMBED_MODEL,
             cache_dir=cache,

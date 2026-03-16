@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "arcana": {
+      "command": "arcana-mcp",
+      "args": [
+        "serve"
+      ]
+    }
+  }
+}
