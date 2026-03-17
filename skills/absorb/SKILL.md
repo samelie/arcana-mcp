@@ -35,6 +35,8 @@ Explore and map the target folder. Capture:
 - Dependencies (internal project deps are most important)
 - Test locations and exact run commands
 - Scripts / build commands
+- Build configs: read tsup.config.ts, vite.config.ts, Dockerfile, pyproject.toml [build-system]
+- Deployment configs: read docker-compose.yaml, Caddyfile, nginx.conf, pulumi index.ts, etc.
 - Existing knowledge/ files (for context on what's already documented)
 
 Hold the inventory in working memory. Do not write to disk.
@@ -52,20 +54,28 @@ Use this rubric — answer whichever questions are relevant, as densely as possi
 **Orientation**
 - What is this? 3-sentence mental model that makes everything else click.
 - Which files/modules actually matter? Which are boilerplate to skip?
+- REQUIRED in overview.md: a "Files that matter vs boilerplate" section listing the 5-10 key entry points vs directories to skip.
 
 **Relationships**
 - How does this connect to other packages in the project? Shared types, API boundaries, build order.
 - Non-obvious dependencies — "changing X here breaks Y over there silently."
+- If the target has >3 sub-packages/modules, REQUIRED: write a dedicated `cross-package-data-flow.md` with:
+  - Request lifecycles (trace a user action through all layers)
+  - Breaking change propagation table (Change → Affected systems)
+  - Dependency graph (ASCII or mermaid)
 
 **Operations**
 - Exact build, test, lint, deploy commands. No guessing.
 - Data flow / request lifecycle — the operational backbone.
 - Environment requirements, secrets, config.
+- Test topology: for each sub-project, where tests live and how to run them. Explicitly note when a sub-project has NO tests.
+- Step-by-step guides for common modifications ("How to add a new X") — but only for entities with >3 touch points. Trivial additions don't need guides.
 
 **Pitfalls**
 - What breaks silently? What are the gotchas?
 - Where do conventions diverge from what you'd assume by default?
 - Patterns that MUST be followed when modifying (and why).
+- Capture implementation constants a future session would waste time rediscovering: magic numbers, port numbers, timeout intervals, auth token claims, regex patterns, routing rules, polling intervals.
 
 **History** (only if discoverable from code/comments/git)
 - Why do certain patterns exist? What past mistakes led to current conventions?
@@ -80,6 +90,11 @@ This is NOT documentation for humans. This is operational briefing material for 
 - Actionable. File paths, commands, concrete patterns. Not abstractions.
 - Honest. If something is unclear or unknown, say so. Never fabricate.
 - Flat. No nested sub-sub-sections. H2 is the primary unit.
+- Queryable headings. Headings should BE the query someone would type. "Adding a new API endpoint" not "API Endpoints". "Why Redis instead of Memcached" not "Caching Layer". Test: if a heading could apply to any project, it's too generic.
+
+ANTI-PATTERNS:
+- Generic headings like "Architecture", "Overview", "Configuration" — these compete with every other package's knowledge in semantic search. Use specific headings: "Express middleware execution order", not "Architecture".
+- Sections that assume reading order. Each H2 chunk may be retrieved in isolation. Include enough context that the chunk makes sense standalone.
 </CRITICAL>
 
 ### File format

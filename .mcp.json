@@ -1,10 +1,8 @@
 {
   "mcpServers": {
     "arcana": {
-      "command": "arcana-mcp",
-      "args": [
-        "serve"
-      ]
+      "command": "uvx",
+      "args": ["arcana-mcp", "serve"]
     }
   }
 }

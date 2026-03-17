@@ -1,0 +1,11 @@
+{
+  "name": "arcana-mcp",
+  "owner": { "name": "Sam Elie" },
+  "plugins": [
+    {
+      "name": "arcana-mcp",
+      "source": { "source": "github", "repo": "samelie/arcana-mcp" },
+      "description": "Semantic vector DB for project knowledge — search, store, browse with local ONNX embeddings"
+    }
+  ]
+}

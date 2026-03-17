@@ -1,0 +1,82 @@
+[
+  {
+    "query": "what do we know about the tax-calc package? I need to understand the form line ID convention before I start adding 2025 fixtures",
+    "should_trigger": true
+  },
+  {
+    "query": "remember this: the CA Schedule CA uses bankers rounding on line 7a, not standard rounding. cost me 2 hours debugging",
+    "should_trigger": true
+  },
+  {
+    "query": "search arcana for anything about the backend ingestion pipeline, i think someone documented the retry logic last month",
+    "should_trigger": true
+  },
+  {
+    "query": "can you check if there's any project knowledge about how the paradocx template system works? I keep getting confused by the landmark detection",
+    "should_trigger": true
+  },
+  {
+    "query": "store this as context for future sessions: when running vitest browser tests in paradocx/apps/webui, you MUST use vi.waitFor() in beforeAll, not expect.element()",
+    "should_trigger": true
+  },
+  {
+    "query": "show me what's indexed in arcana right now, like the full tree",
+    "should_trigger": true
+  },
+  {
+    "query": "i just spent 20 minutes figuring out that the prisma migration has to run before the backend deploy or the new columns aren't there. save that somewhere so we don't forget",
+    "should_trigger": true
+  },
+  {
+    "query": "is there anything in the knowledge base about how form-fill-cli handles multi-page documents? the pandoc extraction seems wrong",
+    "should_trigger": true
+  },
+  {
+    "query": "index the packages/arcana-mcp directory into arcana so future sessions can find it",
+    "should_trigger": true
+  },
+  {
+    "query": "what gotchas do we have documented for the kubernetes deployment? i'm about to modify the contour ingress",
+    "should_trigger": true
+  },
+  {
+    "query": "can you add a React context provider that wraps the dashboard component? it needs to share the filter state with the sidebar",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to fix the CSS context menu that pops up on right-click in the webui — it's positioned wrong on mobile",
+    "should_trigger": false
+  },
+  {
+    "query": "read through packages/tax-calc/src/forms/ and explain how the CalcContext type flows through the form definitions",
+    "should_trigger": false
+  },
+  {
+    "query": "generate knowledge files for the paradocx backend — run absorb on it so future sessions have context",
+    "should_trigger": false
+  },
+  {
+    "query": "write a CHANGELOG entry for the tax-calc package describing the 2024 fixture updates",
+    "should_trigger": false
+  },
+  {
+    "query": "can you search the codebase for everywhere we use ov_add_resource? I want to see how other packages call it",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to store this PDF form data in the sqlite database — can you set up the schema?",
+    "should_trigger": false
+  },
+  {
+    "query": "look at the git log for paradocx/mpa-cli and tell me what changed in the last 5 commits",
+    "should_trigger": false
+  },
+  {
+    "query": "the ExecutionContext in the worker-sdk-v2 package is throwing type errors — can you check what's wrong?",
+    "should_trigger": false
+  },
+  {
+    "query": "ship it — I'm done with the tax-calc changes, let's wrap up with a changeset and knowledge refresh",
+    "should_trigger": false
+  }
+]

@@ -38,7 +38,7 @@ packages = ["src/arcana_mcp"]
 "skills" = "arcana_mcp/skills"
 
 [tool.hatch.build.targets.sdist]
-include = ["src/arcana_mcp/**", "skills/**", "tests/**", "README.md", "LICENSE", "pyproject.toml"]
+include = ["src/arcana_mcp/**", "skills/**", ".claude-plugin/**", "settings.json", "tests/**", "README.md", "LICENSE", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

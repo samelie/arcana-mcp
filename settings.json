@@ -1,0 +1,3 @@
+{
+  "instructions": "## Arcana Orientation Protocol\nWhen starting work on a package/feature you haven't touched in this session:\n1. `arcana_search(\"<package or feature>\")` — get architectural context BEFORE exploring code\n2. If results are relevant, `arcana_read` the top hit for full context\n3. Only then Grep/Glob actual source files\n\n### Tool reference\n- `arcana_search` — hybrid semantic + keyword (default)\n- `arcana_find` — pure semantic\n- `arcana_grep` — regex within URI scope\n- `arcana_read` — full resource content\n- `arcana_add_memory(role, content)` — store findings\n- `arcana_add_resource(path, to)` — index files\n- `arcana_ls` / `arcana_tree` / `arcana_stat` — browse"
+}
