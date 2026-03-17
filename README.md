@@ -74,6 +74,25 @@ Quick access to search, store, and browse project knowledge. Use `arcana_search`
 - **Markdown chunking**: Splits on `#` headings into ~2000 char segments
 - **MCP transport**: stdio via FastMCP
 
+## Releasing
+
+From the monorepo root, commit and push your changes, then run:
+
+```bash
+# Release the current version in pyproject.toml
+./packages/arcana-mcp/scripts/release.sh
+
+# Or bump + release in one step
+./packages/arcana-mcp/scripts/release.sh 0.2.0
+```
+
+The script will:
+1. Validate you're on `main` with a clean tree
+2. Optionally bump `pyproject.toml` and commit
+3. Wait for the monorepo sync workflow to push to `samelie/arcana-mcp`
+4. Verify the remote version matches
+5. Create a GitHub release (`v0.x.x`) which triggers the PyPI publish workflow
+
 ## License
 
 MIT
