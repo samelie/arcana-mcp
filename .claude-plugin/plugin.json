@@ -9,5 +9,7 @@
   "license": "MIT",
   "keywords": ["mcp", "embeddings", "semantic-search", "knowledge-base"],
   "skills": "./skills/",
+  "commands": "./commands/",
+  "agents": ["./agents/arcana-researcher.md"],
   "mcpServers": "./.mcp.json"
 }

@@ -1,9 +1,9 @@
 ---
-name: absorb
+name: arcana-absorb
 description: "Traverse a folder, generate knowledge files optimized for Claude retrieval via Arcana, and index them. Triggers: absorb, generate knowledge, index knowledge, build knowledge base, learn this package, absorb folder"
 ---
 
-# /arcana:absorb <target_path>
+# /arcana:arcana-absorb <target_path>
 
 Generate persistent, semantically-searchable knowledge for a target folder. Knowledge is written by Claude, for Claude — not human documentation. Output goes to `<target>/knowledge/`, indexed into Arcana via `arcana_add_resource`.
 

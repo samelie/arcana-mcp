@@ -13,7 +13,7 @@ claude plugin marketplace add samelie/arcana-mcp
 claude plugin install arcana-mcp
 ```
 
-This installs the MCP server, skills (`/arcana:context`, `/arcana:absorb`), and orientation protocol automatically.
+This installs the MCP server, skills (`/arcana:arcana-search`, `/arcana:arcana-absorb`), command (`/arcana:search`), agent (`arcana-researcher`), and orientation protocol automatically.
 
 ### Manual
 
@@ -53,11 +53,21 @@ Add to your `.mcp.json`:
 
 ## Skills
 
-### `/arcana:absorb <path>`
+### `/arcana:arcana-absorb <path>`
 Generates knowledge files optimized for Claude retrieval. Surveys a directory, synthesizes structured knowledge, and indexes it into Arcana. Re-runnable — updates stale files, removes orphans.
 
-### `/arcana:context`
+### `/arcana:arcana-search`
 Quick access to search, store, and browse project knowledge. Use `arcana_search` for hybrid search, `arcana_add_memory` for quick findings, `arcana_add_resource` for indexing files.
+
+## Commands
+
+### `/arcana:search <query>`
+Quick-invoke search — runs `arcana_search` with the given query and returns results directly.
+
+## Agents
+
+### `arcana-researcher`
+Lightweight agent for delegating knowledge searches to a subagent. Searches Arcana, reads top results, returns a focused summary. Keeps main conversation context clean.
 
 ## Configuration
 

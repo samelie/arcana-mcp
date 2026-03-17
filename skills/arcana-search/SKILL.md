@@ -1,9 +1,9 @@
 ---
-name: context
-description: "Search, store, browse, or index project knowledge in Arcana (the project's semantic vector DB). Use this skill whenever the user asks what we know about a package or feature, wants to remember/save a finding or gotcha for future sessions, asks to search arcana or the knowledge base, wants to see what's indexed (browse/tree), asks about documented gotchas or conventions, says 'save that somewhere' or 'don't forget this', wants to index a directory into arcana, or asks about project knowledge. Also use proactively after long debugging sessions to store root causes. Do NOT use for code search (grep/glob), git history, generating knowledge files (use /arcana:absorb instead), or when 'context' refers to React Context, CSS context menus, or type names like CalcContext/ExecutionContext."
+name: arcana-search
+description: "Search, store, browse, or index project knowledge in Arcana (the project's semantic vector DB). Use this skill whenever the user asks what we know about a package or feature, wants to remember/save a finding or gotcha for future sessions, asks to search arcana or the knowledge base, wants to see what's indexed (browse/tree), asks about documented gotchas or conventions, says 'save that somewhere' or 'don't forget this', wants to index a directory into arcana, or asks about project knowledge. Also use proactively after long debugging sessions to store root causes. Do NOT use for code search (grep/glob), git history, generating knowledge files (use /arcana:arcana-absorb instead), or when 'context' refers to React Context, CSS context menus, or type names like CalcContext/ExecutionContext."
 ---
 
-# /arcana-context
+# /arcana:arcana-search
 
 ## Store context
 When discovering a notable pattern, bug, gotcha, architecture decision, or convention:
