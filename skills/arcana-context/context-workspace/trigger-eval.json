@@ -60,7 +60,7 @@
     "should_trigger": false
   },
   {
-    "query": "can you search the codebase for everywhere we use ov_add_resource? I want to see how other packages call it",
+    "query": "can you search the codebase for everywhere we use arcana_add_resource? I want to see how other packages call it",
     "should_trigger": false
   },
   {

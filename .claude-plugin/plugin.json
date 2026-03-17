@@ -1,6 +1,5 @@
 {
   "name": "arcana-mcp",
-  "version": "0.1.1",
   "description": "Semantic vector DB for project knowledge — search, store, browse with local ONNX embeddings",
   "author": {
     "name": "Sam Elie",
