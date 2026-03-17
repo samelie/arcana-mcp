@@ -3,7 +3,7 @@
   "owner": { "name": "Sam Elie" },
   "plugins": [
     {
-      "name": "arcana-mcp",
+      "name": "arcana",
       "source": "./",
       "description": "Semantic vector DB for project knowledge — search, store, browse with local ONNX embeddings"
     }

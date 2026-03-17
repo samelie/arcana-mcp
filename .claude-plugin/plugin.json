@@ -1,5 +1,5 @@
 {
-  "name": "arcana-mcp",
+  "name": "arcana",
   "description": "Semantic vector DB for project knowledge — search, store, browse with local ONNX embeddings",
   "author": {
     "name": "Sam Elie",
