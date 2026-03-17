@@ -4,7 +4,7 @@
   "plugins": [
     {
       "name": "arcana-mcp",
-      "source": { "source": "github", "repo": "samelie/arcana-mcp" },
+      "source": "./",
       "description": "Semantic vector DB for project knowledge — search, store, browse with local ONNX embeddings"
     }
   ]
