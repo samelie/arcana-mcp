@@ -18,6 +18,22 @@ When starting work on a topic or answering project questions:
 3. Use `arcana_grep` for exact pattern/regex matching within a URI scope
 4. Use `arcana_read` for full content of a specific resource
 
+## Deep research
+When you need comprehensive understanding of a topic before acting:
+1. Start broad: `arcana_search("<main topic>")` — scan all results
+2. Read top 2-3 hits: `arcana_read` each for full content
+3. Extract subtopics: from those results, identify related concepts, packages, data flows mentioned
+4. Follow-up searches: `arcana_search` for each subtopic (2-4 queries)
+5. Read new high-scoring results that add information not yet seen
+6. Stop at saturation: when searches return chunks you've already read
+7. Summarize what you know before proceeding to code exploration
+
+Use deep research when:
+- Starting work on an unfamiliar package
+- Debugging across package boundaries
+- Planning a change that touches multiple systems
+- The user says "use Arcana to understand X"
+
 ## Add project resources
 To index project docs, repos, or code:
 1. Use `arcana_add_resource` with the file/directory path

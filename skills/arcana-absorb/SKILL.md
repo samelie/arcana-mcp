@@ -41,9 +41,79 @@ Explore and map the target folder. Capture:
 
 Hold the inventory in working memory. Do not write to disk.
 
+### Threshold check
+
+After completing the survey, count total source files (excluding node_modules, .git, dist, etc.) and meaningful subdirectories.
+
+- If **≥20 source files AND ≥3 subdirectories** → proceed to Phase 1.5
+- Otherwise → skip directly to Phase 2
+
+If proceeding to Phase 1.5, partition the source tree into **2–5 module groups** for parallel exploration:
+1. Group by top-level directory (e.g., `src/`, `lib/`, `tests/`, `config/`)
+2. Merge small directories (<5 files) together into one group
+3. If >5 groups remain, merge the smallest until ≤5
+
+## Phase 1.5: Deep Exploration (parallel)
+
+Dispatch parallel Explore agents to deeply read each module group identified in Phase 1. This phase is **read-only** — agents do not write files.
+
+### Agent dispatch
+
+For each module group, launch one agent:
+
+- `subagent_type: "Explore"`, `model: "sonnet"`, thoroughness `"very thorough"`
+- **Max 5 agents.** Merge smallest groups if needed.
+- All agents run in parallel.
+
+### Per-agent prompt
+
+```
+Deeply explore <target_path>/<subdir>/ and report findings.
+
+Package context: <package name>, <one-line description from Phase 1>
+Your scope: <list of dirs/files assigned to this agent>
+
+Report the following in structured markdown:
+
+## Patterns & Conventions
+- Code patterns, naming conventions, architectural patterns in this area
+- Framework/library usage patterns
+
+## Data Flow
+- How data moves through this area (inputs → transforms → outputs)
+- Entry points and exit points
+- Connections to other areas of the codebase
+
+## Key Implementation Details
+- Important constants, magic numbers, config values
+- Non-obvious behavior, edge cases, error handling
+- Performance-sensitive code paths
+
+## Gotchas & Pitfalls
+- What breaks silently? What's surprising?
+- Convention divergences from what you'd assume
+- Known issues visible in comments/TODOs
+
+## File Importance Map
+- Which files are critical entry points vs boilerplate
+- Which files change together
+
+Be exhaustive. Read every significant implementation file. Include file paths and line references.
+Skip test files — focus on implementation code only.
+Do NOT write any files. Read-only exploration.
+```
+
+### Findings collection
+
+Each agent returns its structured findings report. The orchestrator holds **all reports in working memory** alongside the Phase 1 survey. Combined findings become the source material for Phase 2.
+
 ## Phase 2: Synthesize
 
-Read the key files identified by the survey. Generate knowledge files in `<target>/knowledge/`.
+**If Phase 1.5 ran:** Use the collected exploration findings as your primary source material. Do NOT re-read files that agents already explored — synthesize from their reports. Only read additional files if you identify gaps. The parallel exploration findings contain file paths, line references, and code patterns. Use these to write denser, more specific knowledge file headings — each heading should be a natural-language query that a future session would type.
+
+**If Phase 1.5 was skipped:** Read the key files identified by the survey.
+
+Generate knowledge files in `<target>/knowledge/`.
 
 ### What to write
 
@@ -131,6 +201,22 @@ Use the package name from package.json/pyproject.toml (e.g., `my-backend` → `m
 ## Phase 4: Verify
 
 Run `arcana_search` with 2-3 queries that a future session would plausibly ask about this package. Confirm the new knowledge surfaces in top results. If not, review chunk boundaries and adjust headers.
+
+## Example flow
+
+Medium-complexity package with 85 source files across `src/`, `tests/`, `scripts/`, `config/`:
+
+1. **Phase 1 (Survey):** Tree scan finds 85 files, 4 subdirectories → threshold met (≥20 files, ≥3 subdirs)
+2. **Phase 1.5 (Deep Exploration):** Partition into 3 groups:
+   - Agent 1: `src/` (largest, ~60 files)
+   - Agent 2: `tests/` (~15 files)
+   - Agent 3: `scripts/` + `config/` (merged, ~10 files)
+   - All 3 dispatched in parallel, each returns structured findings
+3. **Phase 2 (Synthesize):** Orchestrator synthesizes all 3 findings reports into 4 knowledge files: `overview.md`, `data-flow.md`, `gotchas.md`, `adding-new-endpoint.md`
+4. **Phase 3 (Index):** Each knowledge file → `arcana_add_resource`
+5. **Phase 4 (Verify):** 3 test queries confirm knowledge surfaces in top results
+
+Small package with 12 files and 2 subdirs: Phase 1 → skip Phase 1.5 → Phase 2 directly.
 
 ## Re-run contract
 
