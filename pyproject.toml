@@ -1,6 +1,6 @@
 [project]
 name = "arcana-mcp"
-version = "0.1.2"
+version = "0.1.3"
 description = "Semantic vector DB as an MCP server for Claude Code"
 requires-python = ">=3.12"
 license = "MIT"

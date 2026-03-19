@@ -4,6 +4,23 @@ Semantic vector DB as an MCP server for Claude Code — SQLite + FTS5 + local ON
 
 Gives Claude persistent, searchable project knowledge across conversations. Index files, store findings, search semantically — all through MCP tools.
 
+## Prerequisites
+
+- **Python 3.12+**
+- **[uv](https://docs.astral.sh/uv/)** (recommended) — fast Python package manager that provides `uvx` for running tools without global installs:
+  ```bash
+  # macOS / Linux
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+
+  # Windows
+  powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+  # Or via Homebrew
+  brew install uv
+  ```
+
+On first use, arcana-mcp downloads the embedding model (~130MB) to `~/.arcana/models`. This is automatic but requires internet.
+
 ## Install
 
 ### Claude Code Plugin (recommended)
@@ -15,7 +32,7 @@ claude plugin install arcana-mcp
 
 This installs the MCP server, skills (`/arcana:arcana-search`, `/arcana:arcana-absorb`), command (`/arcana:search`), agent (`arcana-researcher`), and orientation protocol automatically.
 
-### Manual
+### Manual (with uvx)
 
 ```bash
 pip install arcana-mcp
@@ -33,6 +50,29 @@ Add to your `.mcp.json`:
   }
 }
 ```
+
+`uvx` runs `arcana-mcp` in an isolated environment — no need to manage virtualenvs yourself.
+
+### Manual (without uvx)
+
+If you prefer not to use `uv`, run the server directly:
+
+```bash
+pip install arcana-mcp
+```
+
+```json
+{
+  "mcpServers": {
+    "arcana": {
+      "command": "arcana-mcp",
+      "args": ["serve"]
+    }
+  }
+}
+```
+
+Make sure `arcana-mcp` is on your `PATH` (e.g. installed in an active virtualenv or with `pipx`).
 
 ## Tools
 
